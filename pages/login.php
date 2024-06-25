@@ -18,14 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         if ($user && password_verify($password, $user['password'])) {
-            // L'utilisateur est authentifié
             session_start();
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['last_name'] = $user['last_name'];
             $_SESSION['first_name'] = $user['first_name'];
             $_SESSION['email'] = $user['email'];
             $_SESSION['role_id'] = $user['role_id'];
-            header('Location: dashboard.php');
+            header('Location: ../index.php');
             exit();
         } else {
             $message = 'Identifiant ou mot de passe incorrect';
@@ -36,16 +35,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Connexion</title>
-    <style>
-        .error { color: red; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Pup Shop</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
+<?php include '../includes/header.php'; ?>
+
+<main>
     <h1>Connexion</h1>
     <?php if ($message): ?>
         <p class="error"><?= htmlspecialchars($message) ?></p>
@@ -70,6 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <a href="#" id="toggleLoginMethod">S'identifier avec son numéro de téléphone</a>
 
-    <script src="javascript/login.js"></script>
+</main>
+    <script src="../javascript/login.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <?php 
-require_once './Database.php';
+require_once __DIR__ . '/Database.php';
 
 class Products extends Database {
 
@@ -10,6 +10,7 @@ class Products extends Database {
     private $ingredients;
     private $quantity_weight;
     private $price;
+    private $subcategories_id;
 
     public function __construct() {
         parent::__construct();
@@ -84,5 +85,18 @@ class Products extends Database {
             die('Erreur : ' . $e->getMessage());
         }
     }
+
+    public function getProductsBySubcategoryId($subcategories_id) {
+        try {
+            $conn = $this->getConnection();
+            $stmt = $conn->prepare("SELECT products.* FROM products JOIN product_subcategories ON products.product_id = product_subcategories.product_id WHERE product_subcategories.subcategories_id = :subcategories_id");
+            $stmt->bindParam(':subcategories_id', $subcategories_id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
+
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-require_once './Database.php';
+require_once __DIR__ . '/Database.php';
 
 class Subcategories extends Database {
 
@@ -35,7 +35,19 @@ class Subcategories extends Database {
         }
     }
 
-    //MÉTHODE 2 : ajouter une sous-cat
+    //Méthode 2 : recup une sous cat par l'id de sa catégorie
+    public function getSubcategoriesByCategoryId($category_id) {
+        try {
+            $conn = $this->getConnection();
+            $stmt = $conn->prepare("SELECT * FROM subcategories WHERE category_id = :category_id");
+            $stmt->bindParam(':category_id', $category_id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
+    //MÉTHODE 3 : ajouter une sous-cat
     public function addSubcategory($subcategories_name, $category_id) {
         try {
             $conn = $this->getConnection();
@@ -49,7 +61,7 @@ class Subcategories extends Database {
         }
     }
 
-    //MÉTHODE 3 : mise à jour sous-cat
+    //MÉTHODE 4 : mise à jour sous-cat
     public function updateSubcategory($id, $subcategories_name, $category_id) {
         try {
             $conn = $this->getConnection();
@@ -64,7 +76,7 @@ class Subcategories extends Database {
         }
     }
 
-    //MÉTHODE 4 : supprimer sous-cat
+    //MÉTHODE 5 : supprimer sous-cat
     public function deleteSubcategory($id) {
         try {
             $conn = $this->getConnection();
@@ -77,6 +89,7 @@ class Subcategories extends Database {
         }
     }
 
+    //MÉTHODE 6 :
     public function addProductToSubcategory($product_id, $subcategories_id) {
         try {
             $conn = $this->getConnection();
@@ -101,16 +114,5 @@ class Subcategories extends Database {
         }
     }
 
-    public function getProductsBySubcategoryId($subcategories_id) {
-        try {
-            $conn = $this->getConnection();
-            $stmt = $conn->prepare("SELECT products.* FROM products JOIN product_subcategories ON products.product_id = product_subcategories.product_id WHERE product_subcategories.subcategories_id = :subcategories_id");
-            $stmt->bindParam(':subcategories_id', $subcategories_id, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (Exception $e) {
-            die('Erreur : ' . $e->getMessage());
-        }
-    }
 }
 ?>

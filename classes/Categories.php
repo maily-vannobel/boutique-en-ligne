@@ -1,8 +1,7 @@
 <?php
-require_once './Database.php';
+require_once __DIR__ . '/Database.php';
 
 class Categories extends Database {
-
     private $category_id;
     private $category_name;
 

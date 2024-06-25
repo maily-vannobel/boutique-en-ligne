@@ -1,7 +1,7 @@
 <?php
-require_once 'Database.php';
+require_once __DIR__ . '/Database.php';
 
-class Users extends Bdd {
+class Users extends Database {
     private $user_id;
     private $last_name;
     private $first_name;
@@ -14,17 +14,13 @@ class Users extends Bdd {
         parent::__construct();
     }
 
-    // Méthode1: Crée un utilisateur dans la base de données
     public function create_user($last_name, $first_name, $email, $password, $phone, $role_id = 2) {
-        // Validation des entrées
         if (!$this->validate_email($email)) {
             throw new Exception('Invalid email format');
         }
         
-        // Hashage du mot de passe
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         
-        // Requête SQL
         $sql = 'INSERT INTO users (last_name, first_name, email, password, phone, role_id) 
                 VALUES (:last_name, :first_name, :email, :password, :phone, :role_id)';
         $stmt = $this->getConnection()->prepare($sql);
@@ -41,8 +37,7 @@ class Users extends Bdd {
             throw new Exception('Failed to create user');
         }
     }
-    
-    //Méthode2: Récupère les informations d'un utilisateur par ID
+
     public function get_user_by_id($user_id) {
         $sql = 'SELECT user_id, last_name, first_name, email, phone, role_id 
                 FROM users WHERE user_id = :user_id';
@@ -51,28 +46,25 @@ class Users extends Bdd {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    //Méthode 3 : recup user par son mail
+
     public function get_user_by_email($email) {
         $sql = 'SELECT user_id, last_name, first_name, email, password, phone, role_id 
-                FROM users 
-                WHERE email = :email';
+                FROM users WHERE email = :email';
         $stmt = $this->getConnection()->prepare($sql);
         $stmt->bindParam(':email', $email);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    
-    //Méthode 4 : recup user par son num 
+
     public function get_user_by_phone($phone) {
         $sql = 'SELECT user_id, last_name, first_name, email, password, phone, role_id 
-                FROM users 
-                WHERE phone = :phone';
+                FROM users WHERE phone = :phone';
         $stmt = $this->getConnection()->prepare($sql);
         $stmt->bindParam(':phone', $phone);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    // Méthode 5: Supprime un utilisateur de la base de données par ID
+
     public function delete_user($user_id) {
         $sql = 'DELETE FROM users WHERE user_id = :user_id';
         $stmt = $this->getConnection()->prepare($sql);
@@ -80,12 +72,10 @@ class Users extends Bdd {
         return $stmt->execute();
     }
 
-    // Méthode de validation de l'email
     private function validate_email($email) {
         return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
 
-    // Getters and Setters
     public function getUserId() {
         return $this->user_id;
     }
@@ -110,5 +100,4 @@ class Users extends Bdd {
         return $this->role_id;
     }
 }
-
 ?>

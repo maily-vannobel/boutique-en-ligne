@@ -1,5 +1,5 @@
 <?php
-class Bdd {
+class Database {
     protected $conn;
 
     public function __construct() {
