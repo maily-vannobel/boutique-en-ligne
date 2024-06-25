@@ -17,6 +17,12 @@ $productSubcategories = new ProductSubcategories();
 $allFilters = $filters->getAllFilters();
 $allSubcategories = $subcategories->getAllSubcategories();
 
+$term = $_GET['term'];
+$results = $filters->searchFilters($term);
+
+echo json_encode($results);
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $product_name = $_POST['product_name'];
     $description = $_POST['description'];
@@ -47,4 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Erreur lors de l'ajout du produit.";
     }
 }
+
+
 ?>

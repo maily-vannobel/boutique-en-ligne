@@ -83,5 +83,14 @@ class Filters extends Database {
             die('Erreur : ' . $e->getMessage());
         }
     }
+    
+    public function searchFilters($term) {
+        $conn = $this->getConnection();
+        $stmt = $conn->prepare("SELECT * FROM filters WHERE filter_value LIKE :term");
+        $term = "%$term%";
+        $stmt->bindParam(':term', $term, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>
