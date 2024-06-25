@@ -98,5 +98,21 @@ class Products extends Database {
         }
     }
 
+
+
+
+    public function getProductImages($product_id) {
+        try {
+            $conn = $this->getConnection();
+            $stmt = $conn->prepare("SELECT images.url FROM images 
+                                    JOIN product_images ON images.image_id = product_images.image_id 
+                                    WHERE product_images.product_id = :product_id");
+            $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
 }
 ?>

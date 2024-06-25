@@ -3,18 +3,14 @@ require_once '../classes/Database.php';
 require_once '../classes/Subcategories.php';
 require_once '../classes/Products.php';
 
-echo "Étape 1: Fichiers inclus.<br>";
-
 $subcategories = new Subcategories();
 $products = new Products();
 
 $subcat_id = $_GET['subcat_id'] ?? null;
 
 if ($subcat_id) {
-    echo "Étape 2: ID de sous-catégorie reçu: $subcat_id<br>";
     $subcat_details = $subcategories->getSubcategoryById($subcat_id);
     $products_in_subcat = $products->getProductsBySubcategoryId($subcat_id);
-    echo "Étape 3: Produits récupérés.<br>";
 } else {
     header('Location: /index.php');
     exit();
@@ -37,7 +33,20 @@ if ($subcat_id) {
     <ul>
         <?php foreach ($products_in_subcat as $product): ?>
             <li>
-                <?= htmlspecialchars($product['product_name']) ?> - <?= htmlspecialchars($product['price']) ?> €
+                <h2><?= htmlspecialchars($product['product_name']) ?></h2>
+                <p><?= htmlspecialchars($product['description']) ?></p>
+                <p>Prix : <?= htmlspecialchars($product['price']) ?> €</p>
+                <p>Poids : <?= htmlspecialchars($product['quantity_weight']) ?></p>
+
+                <?php 
+                $product_images = $products->getProductImages($product['product_id']);
+                if (!empty($product_images)): ?>
+                    <div class="product-images">
+                        <?php foreach ($product_images as $image): ?>
+                            <img src="<?= htmlspecialchars($image['url']) ?>" alt="<?= htmlspecialchars($product['product_name']) ?>">
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
             </li>
         <?php endforeach; ?>
     </ul>
