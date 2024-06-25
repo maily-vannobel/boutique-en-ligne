@@ -1,5 +1,5 @@
 <?php
-require_once './Database.php';
+require_once __DIR__ . '/Database.php';
 
 class Subcategories extends Database {
 
@@ -15,6 +15,17 @@ class Subcategories extends Database {
         try {
             $conn = $this->getConnection();
             $stmt = $conn->prepare("SELECT * FROM subcategories");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
+    public function getSubcategoriesByCategoryId($category_id) {
+        try {
+            $conn = $this->getConnection();
+            $stmt = $conn->prepare("SELECT * FROM subcategories WHERE category_id = :category_id");
+            $stmt->bindParam(':category_id', $category_id, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
@@ -92,18 +103,6 @@ class Subcategories extends Database {
             $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
             $stmt->bindParam(':subcategories_id', $subcategories_id, PDO::PARAM_INT);
             $stmt->execute();
-        } catch (Exception $e) {
-            die('Erreur : ' . $e->getMessage());
-        }
-    }
-
-    public function getProductsBySubcategoryId($subcategories_id) {
-        try {
-            $conn = $this->getConnection();
-            $stmt = $conn->prepare("SELECT products.* FROM products JOIN product_subcategories ON products.product_id = product_subcategories.product_id WHERE product_subcategories.subcategories_id = :subcategories_id");
-            $stmt->bindParam(':subcategories_id', $subcategories_id, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             die('Erreur : ' . $e->getMessage());
         }
