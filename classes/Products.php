@@ -91,5 +91,7 @@ class Products extends Database {
             die('Erreur : ' . $e->getMessage());
         }
     }
+
 }
+
 ?>

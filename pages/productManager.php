@@ -12,10 +12,14 @@ $allSubcategories = $subcategories->getAllSubcategories();
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ajoutProduits</title>
+    <title>TableauAdmin</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <script defer src="../javascript/productManager.js"></script>
 </head>
 <body>
+
+    <?php include '../includes/header.php'; ?>
+
     <h1>Ajouter un Produit</h1>
     <form method="POST" action="../api/addProduct.php">
         <label for="product_name">Nom du Produit:</label>

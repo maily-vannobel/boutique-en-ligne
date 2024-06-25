@@ -9,11 +9,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $first_name = $_POST['first_name'];
     $email = $_POST['email'];
     $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
     $phone = $_POST['phone'];
 
-    // Ajouter la validation du mot de passe côté serveur
-    if (!preg_match('/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/', $password)) {
-        $message = '';
+    if ($password !== $confirm_password) {
+        $message = 'Les mots de passe ne correspondent pas';
+    } else if (!preg_match('/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/', $password)) {
+        $message = 'Le mot de passe doit contenir au moins 8 caractères, un chiffre et un caractère spécial';
     } else {
         try {
             $users = new Users();
@@ -26,16 +28,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Inscription</title>
-    <style>
-        .error { color: red; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - Pup Shop</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
+<?php require_once '../includes/header.php';?>
+
+<main>
     <h1>Inscription</h1>
     <?php if ($message): ?>
         <p class="error"><?= htmlspecialchars($message) ?></p>
@@ -52,6 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <label for="password">Mot de passe:</label>
         <input type="password" id="password" name="password" required><br><br>
+
+        <label for="confirm_password">Confirmer le mot de passe:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required><br><br>
         <div id="passwordError" class="error"></div>
 
         <label for="phone">Téléphone:</label>
@@ -61,5 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </form>
 
     <script src="../javascript/register.js"></script>
+</main>
 </body>
 </html>

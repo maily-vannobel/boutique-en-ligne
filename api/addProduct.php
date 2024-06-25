@@ -20,15 +20,13 @@ $allSubcategories = $subcategories->getAllSubcategories();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $product_name = $_POST['product_name'];
     $description = $_POST['description'];
-    $stock = $_POST['stock'];
-    $ingredients = $_POST['ingredients'];
     $quantity_weight = $_POST['quantity_weight'];
     $price = $_POST['price'];
     $subcategories_id = $_POST['subcategories_id'];
     $image_urls = $_POST['image_urls'];
     $selected_filters = $_POST['filters'];
 
-    $product_id = $products->addProduct($product_name, $description, $stock, $ingredients, $quantity_weight, $price);
+    $product_id = $products->addProduct($product_name, $description, $quantity_weight, $price);
 
     if ($product_id) {
         // Ajouter le produit à la sous-catégorie
