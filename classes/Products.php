@@ -90,6 +90,19 @@ class Products extends Database {
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             die('Erreur : ' . $e->getMessage());
+        }       
+    }
+
+    public function searchProducts($term) {
+        try {
+            $conn = $this->getConnection();
+            $stmt = $conn->prepare("SELECT * FROM products WHERE product_name LIKE :term");
+            $term = "%$term%";
+            $stmt->bindParam(':term', $term, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
         }
     }
 

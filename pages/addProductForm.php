@@ -123,6 +123,6 @@ foreach ($allSubcategories as $subcategory) {
     </div>
     <script id="allFilters" type="application/json"><?php echo json_encode($allFilters); ?></script>
     <script id="selectedFilters" type="application/json"><?php echo json_encode($selectedFilters ?? []); ?></script>
-    <script src="../javascript/productManager.js"></script>
+    <script src="../javascript/addProductForm.js"></script>
 </body>
 </html>
