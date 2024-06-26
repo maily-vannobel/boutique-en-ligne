@@ -1,14 +1,22 @@
 <?php
+session_start(); // Démarrer la session
+
+require_once __DIR__ . '/../classes/Categories.php';
 require_once __DIR__ . '/../classes/Subcategories.php';
 require_once __DIR__ . '/../classes/Filters.php';
 
-// Instanciation des classes
+$categories = new Categories();
 $subcategories = new Subcategories();
 $filters = new Filters();
 
-// Récupération des sous-catégories et des filtres
+$allCategories = $categories->getAllCategories();
 $allSubcategories = $subcategories->getAllSubcategories();
 $allFilters = $filters->getAllFilters();
+
+$subcategoriesByCategory = [];
+foreach ($allSubcategories as $subcategory) {
+    $subcategoriesByCategory[$subcategory['category_id']][] = $subcategory;
+}
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +40,14 @@ $allFilters = $filters->getAllFilters();
                 <div class="leading-loose">
                     <form id="addProductForm" method="POST" action="../api/addProduct.php" class="max-w-xl m-4 p-10 bg-white rounded shadow-xl">
                         <p class="text-gray-800 font-medium text-center">Ajouter un Produit</p>
-                        
+
+                        <?php if (isset($_SESSION['success_message'])): ?>
+                            <div class="bg-green-500 text-white text-center py-2 my-2 rounded">
+                                <?php echo $_SESSION['success_message']; ?>
+                            </div>
+                            <?php unset($_SESSION['success_message']); ?>
+                        <?php endif; ?>
+
                         <!-- Nom du Produit -->
                         <div>
                             <label class="block text-sm text-gray-600" for="product_name">Nom du Produit:</label>
@@ -57,22 +72,34 @@ $allFilters = $filters->getAllFilters();
                             <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" type="text" id="price" name="price" required>
                         </div>
 
-                        <!-- Sous-catégorie -->
-                        <div class="mt-2">
-                            <label class="block text-sm text-gray-600" for="subcategories_id">Sous-catégorie:</label>
-                            <select class="w-full px-4 py-2 text-gray-700 bg-gray-200 rounded" id="subcategories_id" name="subcategories_id" required>
-                                <?php foreach ($allSubcategories as $subcategory): ?>
-                                    <option value="<?= $subcategory['subcategories_id'] ?>"><?= $subcategory['subcategories_name'] ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-
                         <!-- URLs des Images -->
                         <div class="mt-2" id="image_urls_container">
                             <label class="block text-sm text-gray-600" for="image_urls">URLs des Images:</label>
                             <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" type="text" name="image_urls[]" required>
-                            <button type="button" class="mt-2 px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded hover:bg-gray-600" onclick="addImageUrlField()">Ajouter une URL d'image</button>
-                            <button type="button" class="mt-2 px-4 py-1 text-white font-light tracking-wider bg-red-500 rounded hover:bg-red-700" onclick="removeImageUrlField()">Supprimer la dernière URL</button>
+                            <button style="width:100%;" type="button" class="mt-2 px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded hover:bg-gray-600" onclick="addImageUrlField()">Ajouter une URL d'image</button>
+                            <button style="width:100%;" type="button" class="mt-2 px-4 py-1 text-white font-light tracking-wider bg-red-500 rounded hover:bg-red-700" onclick="removeImageUrlField()">Supprimer la dernière URL</button>
+                        </div>
+
+                       <!-- Sous-catégories -->
+                        <div class="mt-2">
+                            <label class="block text-sm text-gray-600" for="subcategories">Sous-catégories:</label>
+                            <select class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="subcategory-select">
+                                <option value="">Sélectionnez une sous-catégorie</option>
+                                <?php foreach ($allCategories as $category) : ?>
+                                    <optgroup label="<?php echo htmlspecialchars($category['category_name']); ?>">
+                                        <?php if (isset($subcategoriesByCategory[$category['category_id']])) : ?>
+                                            <?php foreach ($subcategoriesByCategory[$category['category_id']] as $subcategory) : ?>
+                                                <option value="<?php echo htmlspecialchars($subcategory['subcategories_id']); ?>" data-category-id="<?php echo htmlspecialchars($subcategory['category_id']); ?>">
+                                                    <?php echo htmlspecialchars($subcategory['subcategories_name']); ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </optgroup>
+                                <?php endforeach; ?>
+                            </select>
+                            <button style="width:100%;" type="button" class="mt-2 px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded hover:bg-gray-600" id="addSubcategoryButton">Ajouter une sous-catégorie</button>
+                            <button style="width:100%;" type="button" class="mt-2 px-4 py-1 text-white font-light tracking-wider bg-red-500 rounded hover:bg-red-700" id="removeSubcategoryButton">Supprimer la dernière sous-catégorie</button>
+                            <div id="selected-subcategories" class="flex flex-wrap mt-2"></div>
                         </div>
 
                         <!-- Filtres -->
@@ -82,9 +109,12 @@ $allFilters = $filters->getAllFilters();
                             <div id="selected-filters" class="flex flex-wrap mt-2"></div>
                         </div>
 
+                        <!-- Catégorie -->
+                        <input type="hidden" id="category_id" name="category_id" value="">
+                        
                         <div id="messageContainer" class="text-center py-4"></div>
                         <div class="mt-4 flex justify-center">
-                            <button class="px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded hover:bg-green-500 " type="submit">Ajouter le Produit</button>
+                            <button class="px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded hover:bg-green-500" type="submit">Ajouter le Produit</button>
                         </div>
                     </form>
                 </div>
@@ -93,5 +123,6 @@ $allFilters = $filters->getAllFilters();
     </div>
     <script id="allFilters" type="application/json"><?php echo json_encode($allFilters); ?></script>
     <script id="selectedFilters" type="application/json"><?php echo json_encode($selectedFilters ?? []); ?></script>
+    <script src="../javascript/productManager.js"></script>
 </body>
 </html>

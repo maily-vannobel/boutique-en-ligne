@@ -38,14 +38,15 @@ class Products extends Database {
         }
     }
 
-    public function addProduct($product_name, $description, $quantity_weight, $price) {
+    public function addProduct($product_name, $description, $quantity_weight, $price, $category_id) {
         try {
             $conn = $this->getConnection();
-            $stmt = $conn->prepare("INSERT INTO products (product_name, description, quantity_weight, price) VALUES (:product_name, :description, :quantity_weight, :price)");
+            $stmt = $conn->prepare("INSERT INTO products (product_name, description, quantity_weight, price, category_id) VALUES (:product_name, :description, :quantity_weight, :price, :category_id)");
             $stmt->bindParam(':product_name', $product_name);
             $stmt->bindParam(':description', $description);
             $stmt->bindParam(':quantity_weight', $quantity_weight);
             $stmt->bindParam(':price', $price);
+            $stmt->bindParam(':category_id', $category_id);
             $stmt->execute();
             return $conn->lastInsertId();
         } catch (Exception $e) {
