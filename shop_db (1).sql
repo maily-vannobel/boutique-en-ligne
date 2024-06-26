@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le : mar. 25 juin 2024 à 12:11
+-- Généré le : mer. 26 juin 2024 à 13:07
 -- Version du serveur : 11.3.2-MariaDB
 -- Version de PHP : 8.2.18
 
@@ -140,16 +140,29 @@ CREATE TABLE IF NOT EXISTS `images` (
   `image_id` int(11) NOT NULL AUTO_INCREMENT,
   `url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`image_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `images`
 --
 
 INSERT INTO `images` (`image_id`, `url`) VALUES
-(1, '/images/nourriture/croquettes-purina-adult-small-1.jpg'),
-(2, '/images/nourriture/croquettes-purina-adult-small-2.jpg'),
-(3, '/images/nourriture/croquettes-purina-adult-small-3.jpg');
+(1, '/images/nourriture/croquettes-purina-adult-small-1.png'),
+(2, '/images/nourriture/croquettes-purina-adult-small-2.png'),
+(3, '/images/nourriture/croquettes-purina-adult-small-3.png'),
+(9, '/images/nourriture/croquettes-chow-adult-chicken-1.png'),
+(10, '/images/nourriture/croquettes-chow-adult-chicken-2.png'),
+(14, '/images/nourriture/croquettes-chow-adult-big-turkey-1.png'),
+(15, '/images/nourriture/croquettes-chow-adult-big-turkey-2.png'),
+(16, '/images/nourriture/croquettes-chow-adult-big-turkey-3.png'),
+(17, '/images/nourriture/croquettes-chow-puppy-chicken-1.png'),
+(18, '/images/nourriture/croquettes-chow-puppy-chicken-2.png'),
+(19, '/images/nourriture/croquettes-chow-puppy-chicken-3.png'),
+(20, '/images/nourriture/croquettes-chow-adult-active-chicken-1.png'),
+(21, '/images/nourriture/croquettes-chow-adult-active-chicken-2.png'),
+(22, '/images/nourriture/croquettes-chow-adult-active-chicken-3.png'),
+(23, 'images/nourriture/croquettes-plan-adult-small-chicken-1.png'),
+(24, 'croquettes-plan-adult-small-chicken-2.png');
 
 -- --------------------------------------------------------
 
@@ -198,14 +211,19 @@ CREATE TABLE IF NOT EXISTS `products` (
   `category_id` int(11) NOT NULL,
   PRIMARY KEY (`product_id`),
   KEY `fk_products_category` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `products`
 --
 
 INSERT INTO `products` (`product_id`, `product_name`, `description`, `stock`, `quantity_weight`, `price`, `category_id`) VALUES
-(1, 'PURINA ONE® MINI/SMALL - Croquettes pour petit chien adulte- Bœuf avec du riz', '- Aide à maintenir un microbiome intestinal sain.\r\n- Aide à soutenir des défenses naturelles fortes grâce aux antioxydants et aux protéines de haute qualité.\r\n- Maintient une peau saine et un pelage soyeux grâce à un niveau adapté en nutriments essentiels​.\r\n- Une bonne hygiène bucco-dentaire grâce aux nutriments essentiels et au croustillant des croquettes.', NULL, '1.5 kg', 9.59, 1);
+(1, 'PURINA ONE® MINI/SMALL - Croquettes pour petit chien adulte- Bœuf avec du riz', '- Aide à maintenir un microbiome intestinal sain.\r\n- Aide à soutenir des défenses naturelles fortes grâce aux antioxydants et aux protéines de haute qualité.\r\n- Maintient une peau saine et un pelage soyeux grâce à un niveau adapté en nutriments essentiels​.\r\n- Une bonne hygiène bucco-dentaire grâce aux nutriments essentiels et au croustillant des croquettes.', NULL, '1.5 kg', 9.59, 1),
+(2, 'DOG CHOW® ADULT - POULET', 'Alimentation 100 % complète et équilibrée adaptée à votre chien adulte. Contient des prébiotiques naturels, prouvés pour améliorer l’équilibre de la microflore intestinale et soutenir une digestion saine. Sans colorants, arômes et conservateurs artificiels ajoutés. Deux tailles et formes de croquettes pour une meilleure mastication.', NULL, '14 kg', 50.99, 1),
+(3, 'DOG CHOW® ADULT LARGE BREED - DINDE', 'Alimentation 100 % complète et équilibrée adaptée à votre chien adulte de grande taille. Contient des prébiotiques naturels, prouvés pour améliorer l’équilibre de la microflore intestinale et soutenir une digestion saine. Sans colorants, arômes et conservateurs artificiels ajoutés. Deux tailles et formes de croquettes pour une meilleure mastication.', NULL, '14 kg', 55.99, 1),
+(4, 'DOG CHOW® PUPPY (jusqu’à 1 an) - POULET', 'Alimentation 100% complète et équilibrée adaptée à votre chiot. Contient des prébiotiques naturels, prouvés pour améliorer l’équilibre de la microflore intestinale et soutenir une digestion saine. Sans colorants, arômes et conservateurs artificiels ajoutés. Deux tailles et formes de croquettes pour une meilleure mastication.', NULL, '14 kg', 57.99, 1),
+(5, 'DOG CHOW® ADULT ACTIVE - POULET', 'Alimentation 100 % complète et équilibrée adaptée à votre chien adulte. Contient des prébiotiques naturels, prouvés pour améliorer l’équilibre de la microflore intestinale et soutenir une digestion saine. Sans colorants, arômes et conservateurs artificiels ajoutés. Deux tailles et formes de croquettes pour une meilleure mastication.', NULL, '14 kg', 34.45, 1),
+(6, 'PRO PLAN® SMALL ADULT - POULET', 'Favorise le maintien de la bonne santé au quotidien.\r\nAbsorption supérieure des nutriments pour satisfaire les besoins de votre chien.\r\nAide à garder le pelage de votre chien brillant des racines jusqu’aux pointes.\r\nUne combinaison de nutriments essentiels pour aider à soutenir la bonne santé des articulations.', NULL, '3kg', 21.00, 1);
 
 -- --------------------------------------------------------
 
@@ -226,7 +244,20 @@ CREATE TABLE IF NOT EXISTS `product_filter` (
 --
 
 INSERT INTO `product_filter` (`product_id`, `filter_id`) VALUES
-(1, 5);
+(6, 4),
+(1, 5),
+(2, 27),
+(4, 27),
+(5, 27),
+(6, 27),
+(4, 43),
+(2, 44),
+(5, 44),
+(6, 44),
+(5, 46),
+(6, 46),
+(5, 47),
+(5, 48);
 
 -- --------------------------------------------------------
 
@@ -249,7 +280,20 @@ CREATE TABLE IF NOT EXISTS `product_images` (
 INSERT INTO `product_images` (`product_id`, `image_id`) VALUES
 (1, 1),
 (1, 2),
-(1, 3);
+(1, 3),
+(2, 9),
+(2, 10),
+(3, 14),
+(3, 15),
+(3, 16),
+(4, 17),
+(4, 18),
+(4, 19),
+(5, 20),
+(5, 21),
+(5, 22),
+(6, 23),
+(6, 24);
 
 -- --------------------------------------------------------
 
@@ -270,7 +314,11 @@ CREATE TABLE IF NOT EXISTS `product_subcategories` (
 --
 
 INSERT INTO `product_subcategories` (`product_id`, `subcategories_id`) VALUES
-(1, 1);
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1),
+(5, 1);
 
 -- --------------------------------------------------------
 

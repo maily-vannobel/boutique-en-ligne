@@ -14,6 +14,7 @@ $subcategories = new Subcategories();
         <a href="/pages/products.php">Boutique</a>
         <a href="/pages/register.php">Inscription</a>
         <a href="/pages/login.php">Connexion</a>
+        <a href="/pages/addProductForm.php">ADMIN</a>
     </nav>
 </header>
 
@@ -29,7 +30,7 @@ $subcategories = new Subcategories();
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                             </svg>
                         </button>
-                        <div id="mega-menu-dropdown-<?= $category['category_id'] ?>" class="absolute z-10 grid hidden w-auto grid-cols-2 text-sm bg-white border border-gray-100 rounded-lg shadow-md dark:border-gray-700 md:grid-cols-3 dark:bg-gray-700">
+                        <div id="mega-menu-dropdown-<?= $category['category_id'] ?>" class="dropdown hidden absolute z-10 grid hidden w-auto grid-cols-2 text-sm bg-white border border-gray-100 rounded-lg shadow-md dark:border-gray-700 md:grid-cols-3 dark:bg-gray-700">
                             <div class="p-4 pb-0 text-gray-900 md:pb-4 dark:text-white">
                                 <ul class="space-y-4" aria-labelledby="mega-menu-dropdown-button-<?= $category['category_id'] ?>">
                                     <?php
@@ -50,4 +51,4 @@ $subcategories = new Subcategories();
         </div>
     </div>
 </nav>
-<script src="/javascript/menu.js"></script>
+<script src="../javascript/menu.js"></script>
