@@ -14,8 +14,7 @@ $subcategories = new Subcategories();
         <a href="/pages/products.php">Boutique</a>
         <a href="/pages/register.php">Inscription</a>
         <a href="/pages/login.php">Connexion</a>
-        <a href="/pages/productManager.php">ADMIN _ProductManager</a>
-        <a href="/pages/addProductForm.php">ADMIN _addProduct</a>
+        <a href="/pages/addProductForm.php">ADMIN</a>
     </nav>
 </header>
 

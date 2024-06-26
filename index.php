@@ -1,4 +1,6 @@
-
+<?php
+require_once './includes/header.php';
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -8,9 +10,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
-<?=
-require_once './includes/header.php';
-?>
     <main>
         <h2>Retrouvez vos marques préférées</h2>
     </main>

@@ -23,8 +23,7 @@ if (isset($_GET['term'])) {
     $term = $_GET['term'];
     $results = $filters->searchFilters($term);
     echo json_encode($results);
-} else {
-    echo json_encode([]);
+    exit(); // Ajoutez un exit pour éviter de continuer l'exécution
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -32,8 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $description = $_POST['description'];
     $quantity_weight = $_POST['quantity_weight'] ?? [];
     $price = $_POST['price'];
-    $subcategories_ids = $_POST['subcategories'];
-    $image_urls = $_POST['image_urls'];
+    $subcategories_ids = $_POST['subcategories'] ?? []; // Ajoutez une valeur par défaut
+    $image_urls = $_POST['image_urls'] ?? []; // Ajoutez une valeur par défaut
     $selected_filters = $_POST['filters'] ?? [];
     $category_id = $_POST['category_id'];
 

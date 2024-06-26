@@ -21,18 +21,8 @@ class Subcategories extends Database {
             die('Erreur : ' . $e->getMessage());
         }
     }
-    public function getSubcategoriesByCategoryId($category_id) {
-        try {
-            $conn = $this->getConnection();
-            $stmt = $conn->prepare("SELECT * FROM subcategories WHERE category_id = :category_id");
-            $stmt->bindParam(':category_id', $category_id, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (Exception $e) {
-            die('Erreur : ' . $e->getMessage());
-        }
-    }
 
+    //MÉTHODE 1 : recup sous-cat par ID
     public function getSubcategoryById($id) {
         try {
             $conn = $this->getConnection();
@@ -45,6 +35,19 @@ class Subcategories extends Database {
         }
     }
 
+    //Méthode 2 : recup une sous cat par l'id de sa catégorie
+    public function getSubcategoriesByCategoryId($category_id) {
+        try {
+            $conn = $this->getConnection();
+            $stmt = $conn->prepare("SELECT * FROM subcategories WHERE category_id = :category_id");
+            $stmt->bindParam(':category_id', $category_id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
+    //MÉTHODE 3 : ajouter une sous-cat
     public function addSubcategory($subcategories_name, $category_id) {
         try {
             $conn = $this->getConnection();
@@ -58,6 +61,7 @@ class Subcategories extends Database {
         }
     }
 
+    //MÉTHODE 4 : mise à jour sous-cat
     public function updateSubcategory($id, $subcategories_name, $category_id) {
         try {
             $conn = $this->getConnection();
@@ -72,6 +76,7 @@ class Subcategories extends Database {
         }
     }
 
+    //MÉTHODE 5 : supprimer sous-cat
     public function deleteSubcategory($id) {
         try {
             $conn = $this->getConnection();
@@ -84,6 +89,7 @@ class Subcategories extends Database {
         }
     }
 
+    //MÉTHODE 6 :
     public function addProductToSubcategory($product_id, $subcategories_id) {
         try {
             $conn = $this->getConnection();
@@ -107,5 +113,6 @@ class Subcategories extends Database {
             die('Erreur : ' . $e->getMessage());
         }
     }
+
 }
 ?>

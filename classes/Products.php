@@ -3,7 +3,6 @@
 require_once __DIR__ . '/Database.php';
 
 class Products extends Database {
-
     private $product_id;
     private $product_name;
     private $description;
@@ -14,6 +13,10 @@ class Products extends Database {
     public function __construct() {
         parent::__construct();
     }
+        // Méthode publique pour obtenir la connexion
+        public function getDatabaseConnection() {
+            return $this->getConnection();
+        }
 
     public function getAllProducts() {
         try {
