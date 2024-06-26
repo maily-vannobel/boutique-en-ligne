@@ -7,8 +7,10 @@ header('Content-Type: application/json');
 
 require_once '../classes/Database.php';
 require_once '../classes/Products.php';
+require_once '../classes/Images.php';
 
 $products = new Products();
+$images = new Images();
 
 // Fonction de gestion des erreurs
 function handle_error($errno, $errstr, $errfile, $errline) {
@@ -28,7 +30,7 @@ if ($filters === null && json_last_error() !== JSON_ERROR_NONE) {
 }
 
 // Construire la requête SQL en fonction des filtres
-$query = "SELECT p.* FROM products p 
+$query = "SELECT DISTINCT p.* FROM products p 
           LEFT JOIN product_filter pf ON p.product_id = pf.product_id 
           LEFT JOIN filters f ON pf.filter_id = f.filter_id 
           WHERE 1=1";
@@ -56,6 +58,10 @@ if (!empty($filters['marque'])) {
 $stmt = $products->getDatabaseConnection()->prepare($query);
 if ($stmt->execute($params)) {
     $filtered_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($filtered_products as &$product) {
+        $product_images = $images->getImagesByProductId($product['product_id']);
+        $product['image_url'] = !empty($product_images) ? $product_images[0]['url'] : null;
+    }
     echo json_encode(['products' => $filtered_products]);
 } else {
     http_response_code(500);
