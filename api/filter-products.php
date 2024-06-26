@@ -36,22 +36,13 @@ $query = "SELECT DISTINCT p.* FROM products p
           WHERE 1=1";
 
 $params = [];
-if (!empty($filters['couleur'])) {
-    $placeholders = implode(',', array_fill(0, count($filters['couleur']), '?'));
-    $query .= " AND (f.filter_type = 'couleur' AND f.filter_value IN ($placeholders))";
-    $params = array_merge($params, $filters['couleur']);
-}
-
-if (!empty($filters['ingrédient'])) {
-    $placeholders = implode(',', array_fill(0, count($filters['ingrédient']), '?'));
-    $query .= " AND (f.filter_type = 'ingrédient' AND f.filter_value IN ($placeholders))";
-    $params = array_merge($params, $filters['ingrédient']);
-}
-
-if (!empty($filters['marque'])) {
-    $placeholders = implode(',', array_fill(0, count($filters['marque']), '?'));
-    $query .= " AND (f.filter_type = 'marque' AND f.filter_value IN ($placeholders))";
-    $params = array_merge($params, $filters['marque']);
+foreach ($filters as $filter_type => $filter_values) {
+    if (!empty($filter_values)) {
+        $placeholders = implode(',', array_fill(0, count($filter_values), '?'));
+        $query .= " AND (f.filter_type = ? AND f.filter_value IN ($placeholders))";
+        $params[] = $filter_type;
+        $params = array_merge($params, $filter_values);
+    }
 }
 
 // Exécuter la requête
