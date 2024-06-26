@@ -21,6 +21,12 @@ if ($subcat_id) {
 }
 
 $all_filters = $filters->getAllFilters();
+
+// Grouper les filtres par type
+$grouped_filters = [];
+foreach ($all_filters as $filter) {
+    $grouped_filters[$filter['filter_type']][] = $filter;
+}
 ?>
 
 <!DOCTYPE html>
@@ -46,42 +52,18 @@ $all_filters = $filters->getAllFilters();
     <!-- Sidebar -->
     <aside class="w-1/4 p-4 border-r">
         <h2 class="text-xl font-bold mb-4">Filtres</h2>
-        <!-- Couleurs -->
-        <div class="mb-4">
-            <button class="w-full text-left font-bold" onclick="toggleFilter('couleur')">Couleurs</button>
-            <div id="couleur" class="hidden">
-                <?php
-                $colors = array_filter($all_filters, fn($filter) => $filter['filter_type'] === 'couleur');
-                foreach ($colors as $color) {
-                    echo '<div><input type="checkbox" class="filter-checkbox" name="couleur" value="' . htmlspecialchars($color['filter_value']) . '"> ' . htmlspecialchars($color['filter_value']) . '</div>';
-                }
-                ?>
+        <?php foreach ($grouped_filters as $filter_type => $filters): ?>
+            <div class="mb-4">
+                <button class="w-full text-left font-bold" onclick="toggleFilter('<?= htmlspecialchars($filter_type) ?>')"><?= htmlspecialchars(ucfirst($filter_type)) ?></button>
+                <div id="<?= htmlspecialchars($filter_type) ?>" class="hidden">
+                    <?php foreach ($filters as $filter): ?>
+                        <div>
+                            <input type="checkbox" class="filter-checkbox" name="<?= htmlspecialchars($filter['filter_type']) ?>" value="<?= htmlspecialchars($filter['filter_value']) ?>"> <?= htmlspecialchars($filter['filter_value']) ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
-        </div>
-        <!-- Ingrédients -->
-        <div class="mb-4">
-            <button class="w-full text-left font-bold" onclick="toggleFilter('ingredient')">Ingrédients</button>
-            <div id="ingredient" class="hidden">
-                <?php
-                $ingredients = array_filter($all_filters, fn($filter) => $filter['filter_type'] === 'ingrédient');
-                foreach ($ingredients as $ingredient) {
-                    echo '<div><input type="checkbox" class="filter-checkbox" name="ingrédient" value="' . htmlspecialchars($ingredient['filter_value']) . '"> ' . htmlspecialchars($ingredient['filter_value']) . '</div>';
-                }
-                ?>
-            </div>
-        </div>
-        <!-- Marques -->
-        <div class="mb-4">
-            <button class="w-full text-left font-bold" onclick="toggleFilter('marque')">Marques</button>
-            <div id="marque" class="hidden">
-                <?php
-                $brands = array_filter($all_filters, fn($filter) => $filter['filter_type'] === 'marque');
-                foreach ($brands as $brand) {
-                    echo '<div><input type="checkbox" class="filter-checkbox" name="marque" value="' . htmlspecialchars($brand['filter_value']) . '"> ' . htmlspecialchars($brand['filter_value']) . '</div>';
-                }
-                ?>
-            </div>
-        </div>
+        <?php endforeach; ?>
     </aside>
 
     <!-- Produits -->
@@ -93,7 +75,7 @@ $all_filters = $filters->getAllFilters();
                     <?php 
                     $product_images = $images->getImagesByProductId($product['product_id']); 
                     if (!empty($product_images)): 
-                        $first_image = $product_images[0]; // Get the first image
+                        $first_image = $product_images[0];
                     ?>
                         <a href="/pages/details-product.php?product_id=<?= htmlspecialchars($product['product_id']) ?>">
                             <img class="product-image" src="<?= htmlspecialchars($first_image['url']) ?>" alt="<?= htmlspecialchars($product['product_name']) ?>">
