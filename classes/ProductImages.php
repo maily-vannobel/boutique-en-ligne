@@ -43,5 +43,19 @@ class ProductImages extends Database {
             die('Erreur : ' . $e->getMessage());
         }
     }
+    public function removeAllImagesFromProduct($product_id) {
+        try {
+            $conn = $this->getConnection();
+            $stmt = $conn->prepare("DELETE FROM product_images WHERE product_id = :product_id");
+            $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $stmt = $conn->prepare("DELETE FROM images WHERE image_id IN (SELECT image_id FROM product_images WHERE product_id = :product_id)");
+            $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+            $stmt->execute();
+        } catch (Exception $e) {
+            die('Erreur : ' . le . $e->getMessage());
+        }
+    }
 }
 ?>

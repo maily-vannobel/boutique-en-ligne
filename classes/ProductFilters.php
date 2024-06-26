@@ -43,5 +43,16 @@ class ProductFilters extends Database {
             die('Erreur : ' . $e->getMessage());
         }
     }
+    public function removeAllFiltersFromProduct($product_id) {
+        try {
+            $conn = $this->getConnection();
+            $stmt = $conn->prepare("DELETE FROM product_filter WHERE product_id = :product_id");
+            $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+            $stmt->execute();
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
+
 }
 ?>

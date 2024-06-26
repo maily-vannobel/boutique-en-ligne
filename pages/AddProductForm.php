@@ -80,8 +80,8 @@ foreach ($allSubcategories as $subcategory) {
                             <button style="width:100%;" type="button" class="mt-2 px-4 py-1 text-white font-light tracking-wider bg-red-500 rounded hover:bg-red-700" onclick="removeImageUrlField()">Supprimer la dernière URL</button>
                         </div>
 
-                       <!-- Sous-catégories -->
-                        <div class="mt-2">
+                    <!-- Sous-catégories -->
+                    <div class="mt-2">
                             <label class="block text-sm text-gray-600" for="subcategories">Sous-catégories:</label>
                             <select class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="subcategory-select">
                                 <option value="">Sélectionnez une sous-catégorie</option>
@@ -102,6 +102,9 @@ foreach ($allSubcategories as $subcategory) {
                             <div id="selected-subcategories" class="flex flex-wrap mt-2"></div>
                         </div>
 
+                        <!-- Catégorie -->
+                        <input type="hidden" id="category_id" name="category_id" value="">
+
                         <!-- Filtres -->
                         <div class="mt-2">
                             <label class="block text-sm text-gray-600" for="filters">Filtres:</label>
@@ -109,20 +112,15 @@ foreach ($allSubcategories as $subcategory) {
                             <div id="selected-filters" class="flex flex-wrap mt-2"></div>
                         </div>
 
-                        <!-- Catégorie -->
-                        <input type="hidden" id="category_id" name="category_id" value="">
-                        
-                        <div id="messageContainer" class="text-center py-4"></div>
                         <div class="mt-4 flex justify-center">
                             <button class="px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded hover:bg-green-500" type="submit">Ajouter le Produit</button>
                         </div>
-                    </form>
-                </div>
+                    </form>                </div>
             </div>
         </div>
     </div>
     <script id="allFilters" type="application/json"><?php echo json_encode($allFilters); ?></script>
     <script id="selectedFilters" type="application/json"><?php echo json_encode($selectedFilters ?? []); ?></script>
-    <script src="../javascript/productManager.js"></script>
+    <script src="../javascript/addProductForm.js"></script>
 </body>
 </html>

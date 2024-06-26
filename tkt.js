@@ -5,6 +5,12 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault();
 
         let formData = new FormData(form);
+        
+        // Debugging: Log all form data to console
+        for (let [key, value] of formData.entries()) {
+            console.log(key, value);
+        }
+
         let xhr = new XMLHttpRequest();
         xhr.open("POST", form.action, true);
         xhr.onload = function () {

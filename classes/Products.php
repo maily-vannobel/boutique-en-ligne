@@ -1,8 +1,8 @@
 <?php 
+
 require_once __DIR__ . '/Database.php';
 
 class Products extends Database {
-
     private $product_id;
     private $product_name;
     private $description;
@@ -13,6 +13,10 @@ class Products extends Database {
     public function __construct() {
         parent::__construct();
     }
+        // Méthode publique pour obtenir la connexion
+        public function getDatabaseConnection() {
+            return $this->getConnection();
+        }
 
     public function getAllProducts() {
         try {
@@ -52,6 +56,7 @@ class Products extends Database {
             die('Erreur : ' . $e->getMessage());
         }
     }
+
     public function updateProduct($id, $product_name, $description, $quantity_weight, $price) {
         try {
             $conn = $this->getConnection();
@@ -88,12 +93,22 @@ class Products extends Database {
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             die('Erreur : ' . $e->getMessage());
+        }       
+    }
+
+    public function searchProducts($term) {
+        try {
+            $conn = $this->getConnection();
+            $stmt = $conn->prepare("SELECT * FROM products WHERE product_name LIKE :term");
+            $term = "%$term%";
+            $stmt->bindParam(':term', $term, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
         }
     }
 
-    public function getDatabaseConnection() {
-        return $this->getConnection();
-    }
 }
 
 ?>
