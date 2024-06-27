@@ -20,18 +20,6 @@ class ProductSubcategories extends Database {
         }
     }
 
-    public function removeProductFromSubcategory($product_id, $subcategories_id) {
-        try {
-            $conn = $this->getConnection();
-            $stmt = $conn->prepare("DELETE FROM product_subcategories WHERE product_id = :product_id AND subcategories_id = :subcategories_id");
-            $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
-            $stmt->bindParam(':subcategories_id', $subcategories_id, PDO::PARAM_INT);
-            $stmt->execute();
-        } catch (Exception $e) {
-            die('Erreur : ' . $e->getMessage());
-        }
-    }
-
     public function getSubcategoriesByProductId($product_id) {
         try {
             $conn = $this->getConnection();
@@ -43,5 +31,16 @@ class ProductSubcategories extends Database {
             die('Erreur : ' . $e->getMessage());
         }
     }
+    public function removeProductFromAllSubcategories($product_id) {
+        try {
+            $conn = $this->getConnection();
+            $stmt = $conn->prepare("DELETE FROM product_subcategories WHERE product_id = :product_id");
+            $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+            $stmt->execute();
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
+    
 }
 ?>

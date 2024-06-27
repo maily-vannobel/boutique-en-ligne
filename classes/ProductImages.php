@@ -20,18 +20,6 @@ class ProductImages extends Database {
         }
     }
 
-    public function removeImageFromProduct($product_id, $image_id) {
-        try {
-            $conn = $this->getConnection();
-            $stmt = $conn->prepare("DELETE FROM product_images WHERE product_id = :product_id AND image_id = :image_id");
-            $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
-            $stmt->bindParam(':image_id', $image_id, PDO::PARAM_INT);
-            $stmt->execute();
-        } catch (Exception $e) {
-            die('Erreur : ' . $e->getMessage());
-        }
-    }
-
     public function getImagesByProductId($product_id) {
         try {
             $conn = $this->getConnection();
@@ -56,6 +44,6 @@ class ProductImages extends Database {
         } catch (Exception $e) {
             die('Erreur : ' . le . $e->getMessage());
         }
-    }
+    }  
 }
 ?>

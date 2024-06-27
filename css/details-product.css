@@ -1,0 +1,36 @@
+.product-detail-thumbnails {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.product-detail-thumbnail {
+    cursor: pointer;
+    transition: transform 0.2s;
+    border: 2px solid transparent;
+    width: 80px; /* Taille ajustée des miniatures */
+    height: 80px; /* Taille ajustée des miniatures */
+}
+
+.product-detail-thumbnail:hover {
+    transform: scale(1.1);
+}
+
+
+.product-detail-main-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px; /* Taille ajustée de l'image principale */
+}
+
+.product-detail-image {
+    max-height: 100%; /* S'assure que l'image principale reste contenue */
+    max-width: 100%;
+}
+
+.product-detail-description {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
