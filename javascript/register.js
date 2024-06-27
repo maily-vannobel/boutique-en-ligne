@@ -10,7 +10,7 @@ function validatePassword() {
     if (!/[0-9]/.test(password)) {
         errorMessage += 'Le mot de passe doit contenir au moins un chiffre. ';
     }
-    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) { 
         errorMessage += 'Le mot de passe doit contenir au moins un caractère spécial. ';
     }
     if (password !== confirmPassword) {

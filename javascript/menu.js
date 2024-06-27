@@ -29,4 +29,23 @@ document.addEventListener("DOMContentLoaded", () => {
             dropdown.classList.add("hidden");
         });
     });
+
+    // Gestion du menu burger pour le menu mobile
+    const burgerButton = document.getElementById('burger-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    burgerButton.addEventListener('click', function () {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    // Gestion du menu Admin
+    const adminMenuButton = document.getElementById('adminMenuButton');
+    const adminMenu = document.getElementById('adminMenu');
+
+    if (adminMenuButton && adminMenu) {
+        adminMenuButton.addEventListener('click', function (event) {
+            event.stopPropagation();
+            adminMenu.classList.toggle('hidden');
+        });
+    }
 });
