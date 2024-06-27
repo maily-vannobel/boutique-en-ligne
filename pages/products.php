@@ -86,6 +86,18 @@ foreach ($all_filters as $filter) {
                     </a>
                     <p class="text-green-500 font-bold">Prix : <?= htmlspecialchars($product['price']) ?> €</p>
                     <p class="text-gray-500">Poids : <?= htmlspecialchars($product['quantity_weight']) ?></p>
+                    <form method="post" action="addToCart.php">
+                        <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['product_id']) ?>">
+                        <input type="hidden" name="product_name" value="<?= htmlspecialchars($product['product_name']) ?>">
+                        <input type="hidden" name="product_price" value="<?= htmlspecialchars($product['price']) ?>">
+                        <input type="number" name="product_quantity" value="1" min="1" class="w-16 p-1 border rounded">
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-2 flex items-center">
+                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l1.5 7H6L7 13zM16 8V6a4 4 0 00-8 0v2"></path>
+                            </svg>
+                            Ajouter au panier
+                        </button>
+                    </form>
                 </div>
             <?php endforeach; ?>
         </div>
