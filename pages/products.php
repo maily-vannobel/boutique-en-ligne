@@ -10,14 +10,25 @@ $products = new Products();
 $images = new Images();
 $filters = new Filters();
 
+$category_id = $_GET['category_id'] ?? null;
 $subcat_id = $_GET['subcat_id'] ?? null;
+
+$products_in_subcat = [];
 
 if ($subcat_id) {
     $subcat_details = $subcategories->getSubcategoryById($subcat_id);
     $products_in_subcat = $products->getProductsBySubcategoryId($subcat_id);
+} elseif ($category_id) {
+    $subcat_details = ['subcategories_name' => 'Toutes les sous-catégories de la catégorie'];
+    $subcategoriesList = $subcategories->getSubcategoriesByCategoryId($category_id);
+
+    foreach ($subcategoriesList as $subcategory) {
+        $subcatProducts = $products->getProductsBySubcategoryId($subcategory['subcategories_id']);
+        $products_in_subcat = array_merge($products_in_subcat, $subcatProducts);
+    }
 } else {
     $subcat_details = ['subcategories_name' => 'Toutes les catégories'];
-    $products_in_subcat = $products->getAllProducts(); // Afficher tous les produits si aucun subcat_id
+    $products_in_subcat = $products->getAllProducts();
 }
 
 $all_filters = $filters->getAllFilters();
@@ -35,6 +46,7 @@ foreach ($all_filters as $filter) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boutique</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
         .product-image {
@@ -68,7 +80,7 @@ foreach ($all_filters as $filter) {
 
     <!-- Produits -->
     <div class="w-3/4 p-4">
-        <h1 class="text-2xl font-bold mb-4">Produits dans la catégorie <?= htmlspecialchars($subcat_details['subcategories_name']) ?></h1>
+        <h1 class="text-2xl font-bold mb-4"> <?= htmlspecialchars($subcat_details['subcategories_name']) ?></h1>
         <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             <?php foreach ($products_in_subcat as $product): ?>
                 <div class="border p-4 rounded shadow">
@@ -86,15 +98,14 @@ foreach ($all_filters as $filter) {
                     </a>
                     <p class="text-green-500 font-bold">Prix : <?= htmlspecialchars($product['price']) ?> €</p>
                     <p class="text-gray-500">Poids : <?= htmlspecialchars($product['quantity_weight']) ?></p>
+
                     <form method="post" action="addToCart.php">
                         <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['product_id']) ?>">
                         <input type="hidden" name="product_name" value="<?= htmlspecialchars($product['product_name']) ?>">
                         <input type="hidden" name="product_price" value="<?= htmlspecialchars($product['price']) ?>">
                         <input type="number" name="product_quantity" value="1" min="1" class="w-16 p-1 border rounded">
-                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-2 flex items-center">
-                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l1.5 7H6L7 13zM16 8V6a4 4 0 00-8 0v2"></path>
-                            </svg>
+                        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded mt-2 flex items-center hover:bg-green-600">
+                            <i class="fas fa-shopping-cart w-6 h-6 mr-2"></i>
                             Ajouter au panier
                         </button>
                     </form>

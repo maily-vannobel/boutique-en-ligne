@@ -108,7 +108,35 @@ class Products extends Database {
             die('Erreur : ' . $e->getMessage());
         }
     }
+    
+    public function getProductsByFilters($filter_ids, $exclude_product_id = null) {
+        $placeholders = implode(',', array_fill(0, count($filter_ids), '?'));
+        $query = "SELECT DISTINCT p.* FROM products p
+                  JOIN product_filter pf ON p.product_id = pf.product_id
+                  WHERE pf.filter_id IN ($placeholders)";
+        
+        if ($exclude_product_id) {
+            $query .= " AND p.product_id != ?";
+            $filter_ids[] = $exclude_product_id;
+        }
 
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute($filter_ids);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+
+    public function getSimilarProducts($product_id) {
+        try {
+            $conn = $this->getConnection();
+            $stmt = $conn->prepare("SELECT * FROM products WHERE subcategories_id = (SELECT subcategories_id FROM products WHERE product_id = :product_id) AND product_id != :product_id LIMIT 4");
+            $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
 }
-
 ?>
