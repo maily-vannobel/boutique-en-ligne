@@ -2,8 +2,6 @@
 require_once __DIR__ . '/../classes/Database.php';
 require_once __DIR__ . '/../classes/Users.php';
 
-session_start();
-
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
