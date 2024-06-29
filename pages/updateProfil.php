@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once '../classes/Users.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: ../pages/login.php'); // Assurez-vous que le chemin est correct
+    header('Location: ../pages/login.php'); 
     exit();
 }
 
