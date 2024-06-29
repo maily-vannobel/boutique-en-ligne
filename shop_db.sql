@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le : mer. 26 juin 2024 à 18:46
+-- Généré le : mer. 26 juin 2024 à 19:12
 -- Version du serveur : 10.6.5-MariaDB
 -- Version de PHP : 8.0.26
 
@@ -140,33 +140,38 @@ CREATE TABLE IF NOT EXISTS `images` (
   `image_id` int(11) NOT NULL AUTO_INCREMENT,
   `url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`image_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `images`
 --
 
 INSERT INTO `images` (`image_id`, `url`) VALUES
-(1, '/images/nourriture/croquettes-purina-adult-small-1.png'),
-(2, '/images/nourriture/croquettes-purina-adult-small-2.png'),
-(3, '/images/nourriture/croquettes-purina-adult-small-3.png'),
-(9, '/images/nourriture/croquettes-chow-adult-chicken-1.png'),
-(10, '/images/nourriture/croquettes-chow-adult-chicken-2.png'),
-(14, '/images/nourriture/croquettes-chow-adult-big-turkey-1.png'),
-(15, '/images/nourriture/croquettes-chow-adult-big-turkey-2.png'),
-(16, '/images/nourriture/croquettes-chow-adult-big-turkey-3.png'),
-(17, '/images/nourriture/croquettes-chow-puppy-chicken-1.png'),
-(18, '/images/nourriture/croquettes-chow-puppy-chicken-2.png'),
-(19, '/images/nourriture/croquettes-chow-puppy-chicken-3.png'),
-(20, '/images/nourriture/croquettes-chow-adult-active-chicken-1.png'),
-(21, '/images/nourriture/croquettes-chow-adult-active-chicken-2.png'),
-(22, '/images/nourriture/croquettes-chow-adult-active-chicken-3.png'),
-(23, 'images/nourriture/croquettes-plan-adult-small-chicken-1.png'),
-(24, 'croquettes-plan-adult-small-chicken-2.png'),
-(26, 'images/nourriture/croquettes-plan-puppy-lamb-1.png'),
-(27, 'images/nourriture/croquettes-plan-puppy-lamb-2.png'),
-(28, 'images/nourriture/croquettes-plan-puppy-lamb-1.png'),
-(29, 'images/nourriture/croquettes-plan-puppy-lamb-2.png');
+(1, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/nourriture/croquettes-purina-adult-small-1.png'),
+(2, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/nourriture/purina-adult-small-2.png'),
+(3, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/nourriture/croquettes-purina-adult-small-3.png'),
+(9, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/nourriture/croquettes-chow-adult-chicken-1.png'),
+(10, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/nourriture/croquettes-chow-adult-chicken-2.png'),
+(14, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/nourriture/croquettes-chow-adult-big-turkey-1.png'),
+(15, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/nourriture/croquettes-chow-adult-big-turkey-2.png'),
+(16, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/nourriture/croquettes-chow-adult-big-turkey-3.png'),
+(17, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/nourriture/croquettes-chow-puppy-chicken-1.png'),
+(18, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/nourriture/croquettes-chow-puppy-chicken-2.png'),
+(19, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/nourriture/croquettes-chow-puppy-chicken-3.png'),
+(20, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/nourriture/croquettes-chow-adult-active-chicken-1.png'),
+(21, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/nourriture/croquettes-chow-adult-active-chicken-2.png'),
+(22, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/nourriture/croquettes-chow-adult-active-chicken-3.png'),
+(23, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/nourriture/croquettes-plan-adult-small-chicken-1.png'),
+(24, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/nourriture/croquettes-plan-adult-small-chicken-2.png'),
+(26, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/nourriture/croquettes-plan-puppy-lamb-1.png'),
+(27, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/nourriture/croquettes-plan-puppy-lamb-2.png'),
+(28, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/nourriture/croquettes-plan-puppy-lamb-1.png'),
+(29, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/nourriture/croquettes-plan-puppy-lamb-2.png'),
+(38, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/jouets/fontaine_exterieur.jpg'),
+(39, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/jouets/fontaine_exterieur2.jpg'),
+(40, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/jouets/fontaine_exterieur3.jpg'),
+(41, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/jouets/fontaine_exterieur4.jpg'),
+(42, 'https://alonzo-bachelier.students-laplateforme.io/imagesBaseDeDonn%C3%A9es/boutique/jouets/fontaine_exterieur5.jpg');
 
 -- --------------------------------------------------------
 
@@ -215,7 +220,7 @@ CREATE TABLE IF NOT EXISTS `products` (
   `category_id` int(11) NOT NULL,
   PRIMARY KEY (`product_id`),
   KEY `fk_products_category` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `products`
@@ -228,7 +233,8 @@ INSERT INTO `products` (`product_id`, `product_name`, `description`, `stock`, `q
 (4, 'DOG CHOW® PUPPY (jusqu’à 1 an) - POULET', 'Alimentation 100% complète et équilibrée adaptée à votre chiot. Contient des prébiotiques naturels, prouvés pour améliorer l’équilibre de la microflore intestinale et soutenir une digestion saine. Sans colorants, arômes et conservateurs artificiels ajoutés. Deux tailles et formes de croquettes pour une meilleure mastication.', NULL, '14 kg', '57.99', 1),
 (5, 'DOG CHOW® ADULT ACTIVE - POULET', 'Alimentation 100 % complète et équilibrée adaptée à votre chien adulte. Contient des prébiotiques naturels, prouvés pour améliorer l’équilibre de la microflore intestinale et soutenir une digestion saine. Sans colorants, arômes et conservateurs artificiels ajoutés. Deux tailles et formes de croquettes pour une meilleure mastication.', NULL, '14 kg', '34.45', 1),
 (6, 'PRO PLAN® SMALL ADULT - POULET', 'Favorise le maintien de la bonne santé au quotidien.\r\nAbsorption supérieure des nutriments pour satisfaire les besoins de votre chien.\r\nAide à garder le pelage de votre chien brillant des racines jusqu’aux pointes.\r\nUne combinaison de nutriments essentiels pour aider à soutenir la bonne santé des articulations.', NULL, '3kg', '21.00', 1),
-(7, 'PRO PLAN® PUPPY SENSITIVE DIGESTION - DINDE', 'Améliore l\'équilibre de la microflore intestinale, formulé sans céréales.\r\nContient des prébiotiques scientifiquement prouvés pour augmenter le nombre de bifidobactéries, pour un meilleur équilibre de la microflore intestinale.\r\nFormulé avec des ingrédients spécifiques pour contribuer à la bonne santé intestinale et la bonne consistance des selles.\r\nRecette sans céréales, soigneusement formulée sans blé ni maïs. Fabriqué dans un atelier qui utilise des céréales.', NULL, '12kg', '78.85', 1);
+(7, 'PRO PLAN® PUPPY SENSITIVE DIGESTION - DINDE', 'Améliore l\'équilibre de la microflore intestinale, formulé sans céréales.\r\nContient des prébiotiques scientifiquement prouvés pour augmenter le nombre de bifidobactéries, pour un meilleur équilibre de la microflore intestinale.\r\nFormulé avec des ingrédients spécifiques pour contribuer à la bonne santé intestinale et la bonne consistance des selles.\r\nRecette sans céréales, soigneusement formulée sans blé ni maïs. Fabriqué dans un atelier qui utilise des céréales.', NULL, '12kg', '78.85', 1),
+(15, 'Fontaine extérieure', 'Jouer et s\'hydrater en autonomie\r\nMécanisme pédale simple\r\nIdéale en période de forte chaleur, la fontaine Spring Break de Zolia permettra à votre chien sur simple action de sa patte sur la pédale de faire jaillir de l\'eau fraîche. Une façon originale, ludique et pratique de joindre l\'utile à l\'agréable : jouer et s\'hydrater tout en étant autonome. Le branchement est simple, il vous suffit de raccorder le tuyau fournit directement à votre robinet ou tuyau d\'arrosage pour que votre chien puisse se mouiller et jouer. Lorsque votre compagnon s\'est bien rafraichi, n\'oubliez pas de couper l\'eau en refermant le robinet !\r\n\r\nCaractéristiques\r\nFontaine extérieure chien Zolia Spring Break\r\n- Fontaine à eau pour chien\r\n- Avec pédale\r\n- Mécanisme simple\r\n- Ultra résistant\r\n- À brancher sur un tuyau d\'arrosage ou sur un robinet\r\n- Vendue avec tuyau de raccordement (longueur 3m)', NULL, 'x1', '27.99', 3);
 
 -- --------------------------------------------------------
 
@@ -267,7 +273,10 @@ INSERT INTO `product_filter` (`product_id`, `filter_id`) VALUES
 (7, 43),
 (7, 46),
 (7, 47),
-(7, 48);
+(7, 48),
+(15, 7),
+(15, 8),
+(15, 35);
 
 -- --------------------------------------------------------
 
@@ -305,7 +314,12 @@ INSERT INTO `product_images` (`product_id`, `image_id`) VALUES
 (6, 23),
 (6, 24),
 (7, 26),
-(7, 27);
+(7, 27),
+(15, 38),
+(15, 39),
+(15, 40),
+(15, 41),
+(15, 42);
 
 -- --------------------------------------------------------
 
@@ -332,7 +346,9 @@ INSERT INTO `product_subcategories` (`product_id`, `subcategories_id`) VALUES
 (4, 1),
 (5, 1),
 (6, 1),
-(7, 1);
+(7, 1),
+(15, 12),
+(15, 16);
 
 -- --------------------------------------------------------
 

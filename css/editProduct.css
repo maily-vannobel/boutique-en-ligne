@@ -1,0 +1,27 @@
+body {
+    background-color: #f7fafc; /* Light gray background for the whole page */
+}
+
+.edit-container {
+    max-width: 800px;
+    margin: 0 auto; /* Center the container */
+    padding: 20px;
+}
+
+/* Back button styles */
+.back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    margin-bottom: 20px; /* Space between back button and form */
+}
+
+.back-button svg {
+    width: 20px;
+    height: 20px;
+}

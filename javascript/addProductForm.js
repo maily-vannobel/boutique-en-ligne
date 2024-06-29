@@ -19,7 +19,8 @@ function removeImageUrlField() {
 function addSubcategoryField() {
     let subcategorySelect = document.getElementById("subcategory-select");
     let selectedValue = subcategorySelect.value;
-    let selectedText = subcategorySelect.options[subcategorySelect.selectedIndex].text;
+    let selectedText =
+        subcategorySelect.options[subcategorySelect.selectedIndex].text;
     if (selectedValue) {
         addSubcategory(selectedText, selectedValue);
         subcategorySelect.value = "";
@@ -27,43 +28,60 @@ function addSubcategoryField() {
 }
 
 function addSubcategory(subcategoryName, subcategoryId) {
-    if (!document.querySelector(`#selected-subcategories .subcategory[data-id='${subcategoryId}']`)) {
+    if (
+        !document.querySelector(
+            `#selected-subcategories .subcategory[data-id='${subcategoryId}']`
+        )
+    ) {
         let subcategoryDiv = document.createElement("div");
-        subcategoryDiv.className = "subcategory bg-gray-200 rounded px-2 py-1 m-1 flex items-center";
+        subcategoryDiv.className =
+            "subcategory bg-gray-200 rounded px-2 py-1 m-1 flex items-center";
         subcategoryDiv.setAttribute("data-id", subcategoryId);
         subcategoryDiv.innerHTML = `
             <span>${subcategoryName}</span>
             <button type="button" class="ml-2 text-red-500 remove-subcategory">✖</button>
             <input type="hidden" name="subcategories[]" value="${subcategoryId}">
         `;
-        document.getElementById("selected-subcategories").appendChild(subcategoryDiv);
+        document
+            .getElementById("selected-subcategories")
+            .appendChild(subcategoryDiv);
     }
 }
 
-document.getElementById("addSubcategoryButton").addEventListener("click", addSubcategoryField);
+document
+    .getElementById("addSubcategoryButton")
+    .addEventListener("click", addSubcategoryField);
 
-document.getElementById("removeSubcategoryButton").addEventListener("click", function () {
-    let container = document.getElementById("selected-subcategories");
-    let subcategories = container.querySelectorAll(".subcategory");
-    if (subcategories.length > 0) {
-        container.removeChild(subcategories[subcategories.length - 1]);
-    }
-});
+document
+    .getElementById("removeSubcategoryButton")
+    .addEventListener("click", function () {
+        let container = document.getElementById("selected-subcategories");
+        let subcategories = container.querySelectorAll(".subcategory");
+        if (subcategories.length > 0) {
+            container.removeChild(subcategories[subcategories.length - 1]);
+        }
+    });
 
-document.getElementById("selected-subcategories").addEventListener("click", function (event) {
-    if (event.target.classList.contains("remove-subcategory")) {
-        event.target.parentNode.remove();
-    }
-});
+document
+    .getElementById("selected-subcategories")
+    .addEventListener("click", function (event) {
+        if (event.target.classList.contains("remove-subcategory")) {
+            event.target.parentNode.remove();
+        }
+    });
 
 // Autocomplete for filters
 let allFilters = JSON.parse(document.getElementById("allFilters").textContent);
-let selectedFilters = JSON.parse(document.getElementById("selectedFilters").textContent);
+let selectedFilters = JSON.parse(
+    document.getElementById("selectedFilters").textContent
+);
 
 let filterInput = document.getElementById("filter");
 filterInput.addEventListener("input", function () {
     let term = filterInput.value.toLowerCase();
-    let results = allFilters.filter(f => f.filter_value.toLowerCase().includes(term)).slice(0, 10);
+    let results = allFilters
+        .filter(f => f.filter_value.toLowerCase().includes(term))
+        .slice(0, 10);
     showAutocompleteSuggestions(results);
 });
 
@@ -90,9 +108,15 @@ function showAutocompleteSuggestions(results) {
 
 function addFilter(filterValue) {
     let filter = allFilters.find(f => f.filter_value === filterValue);
-    if (filter && !document.querySelector(`#selected-filters .filter[data-id='${filter.filter_id}']`)) {
+    if (
+        filter &&
+        !document.querySelector(
+            `#selected-filters .filter[data-id='${filter.filter_id}']`
+        )
+    ) {
         let filterDiv = document.createElement("div");
-        filterDiv.className = "filter bg-gray-200 rounded px-2 py-1 m-1 flex items-center";
+        filterDiv.className =
+            "filter bg-gray-200 rounded px-2 py-1 m-1 flex items-center";
         filterDiv.setAttribute("data-id", filter.filter_id);
         filterDiv.innerHTML = `
             <span>${filter.filter_type}: ${filterValue}</span>
@@ -103,19 +127,22 @@ function addFilter(filterValue) {
     }
 }
 
-document.getElementById("selected-filters").addEventListener("click", function (event) {
-    if (event.target.classList.contains("remove-filter")) {
-        event.target.parentNode.remove();
-    }
-});
+document
+    .getElementById("selected-filters")
+    .addEventListener("click", function (event) {
+        if (event.target.classList.contains("remove-filter")) {
+            event.target.parentNode.remove();
+        }
+    });
 
 // Charger les filtres déjà sélectionnés si nécessaire
 selectedFilters.forEach(function (filter) {
     addFilter(filter.filter_value);
 });
-
-document.getElementById("subcategory-select").addEventListener("change", function () {
-    var selectedSubcategory = this.options[this.selectedIndex];
-    var categoryId = selectedSubcategory.getAttribute("data-category-id");
-    document.getElementById("category_id").value = categoryId;
-});
+document
+    .getElementById("subcategory-select")
+    .addEventListener("change", function () {
+        var selectedSubcategory = this.options[this.selectedIndex];
+        var categoryId = selectedSubcategory.getAttribute("data-category-id");
+        document.getElementById("category_id").value = categoryId;
+    });

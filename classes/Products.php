@@ -9,6 +9,7 @@ class Products extends Database {
     private $quantity_weight;
     private $price;
     private $subcategories_id;
+    private $category_id;
 
     public function __construct() {
         parent::__construct();
@@ -56,16 +57,24 @@ class Products extends Database {
             die('Erreur : ' . $e->getMessage());
         }
     }
-
-    public function updateProduct($id, $product_name, $description, $quantity_weight, $price) {
+    public function updateProduct($id, $product_name, $description, $quantity_weight, $price, $category_id) {
         try {
             $conn = $this->getConnection();
-            $stmt = $conn->prepare("UPDATE products SET product_name = :product_name, description = :description, quantity_weight = :quantity_weight, price = :price WHERE product_id = :id");
+            $stmt = $conn->prepare("
+                UPDATE products 
+                SET product_name = :product_name, 
+                    description = :description, 
+                    quantity_weight = :quantity_weight, 
+                    price = :price, 
+                    category_id = :category_id 
+                WHERE product_id = :id
+            ");
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->bindParam(':product_name', $product_name);
             $stmt->bindParam(':description', $description);
             $stmt->bindParam(':quantity_weight', $quantity_weight);
             $stmt->bindParam(':price', $price);
+            $stmt->bindParam(':category_id', $category_id, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->rowCount();
         } catch (Exception $e) {
@@ -108,7 +117,35 @@ class Products extends Database {
             die('Erreur : ' . $e->getMessage());
         }
     }
+    
+    public function getProductsByFilters($filter_ids, $exclude_product_id = null) {
+        $placeholders = implode(',', array_fill(0, count($filter_ids), '?'));
+        $query = "SELECT DISTINCT p.* FROM products p
+                  JOIN product_filter pf ON p.product_id = pf.product_id
+                  WHERE pf.filter_id IN ($placeholders)";
+        
+        if ($exclude_product_id) {
+            $query .= " AND p.product_id != ?";
+            $filter_ids[] = $exclude_product_id;
+        }
 
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute($filter_ids);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+
+    public function getSimilarProducts($product_id) {
+        try {
+            $conn = $this->getConnection();
+            $stmt = $conn->prepare("SELECT * FROM products WHERE subcategories_id = (SELECT subcategories_id FROM products WHERE product_id = :product_id) AND product_id != :product_id LIMIT 4");
+            $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
 }
-
 ?>

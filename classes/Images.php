@@ -55,5 +55,28 @@ class Images extends Database {
             die('Erreur : ' . $e->getMessage());
         }
     }
+    public function getImageByUrl($url) {
+        try {
+            $conn = $this->getConnection();
+            $stmt = $conn->prepare("SELECT * FROM images WHERE url = :url");
+            $stmt->bindParam(':url', $url, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
+
+    public function addImage($url) {
+        try {
+            $conn = $this->getConnection();
+            $stmt = $conn->prepare("INSERT INTO images (url) VALUES (:url)");
+            $stmt->bindParam(':url', $url, PDO::PARAM_STR);
+            $stmt->execute();
+            return $conn->lastInsertId();
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
 }
 ?>

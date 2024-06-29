@@ -99,5 +99,26 @@ class Users extends Database {
     public function getRoleId() {
         return $this->role_id;
     }
+
+    public function update_user($user_id, $last_name, $first_name, $email, $phone, $password = null) {
+        $sql = 'UPDATE users SET last_name = :last_name, first_name = :first_name, email = :email, phone = :phone';
+        if ($password) {
+            $sql .= ', password = :password';
+        }
+        $sql .= ' WHERE user_id = :user_id';
+    
+        $stmt = $this->getConnection()->prepare($sql);
+        $stmt->bindParam(':last_name', $last_name);
+        $stmt->bindParam(':first_name', $first_name);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':phone', $phone);
+        if ($password) {
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $stmt->bindParam(':password', $hashedPassword);
+        }
+        $stmt->bindParam(':user_id', $user_id);
+        
+        return $stmt->execute();
+    }
 }
 ?>

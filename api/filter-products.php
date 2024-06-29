@@ -7,8 +7,10 @@ header('Content-Type: application/json');
 
 require_once '../classes/Database.php';
 require_once '../classes/Products.php';
+require_once '../classes/Images.php';
 
 $products = new Products();
+$images = new Images();
 
 // Fonction de gestion des erreurs
 function handle_error($errno, $errstr, $errfile, $errline) {
@@ -28,34 +30,29 @@ if ($filters === null && json_last_error() !== JSON_ERROR_NONE) {
 }
 
 // Construire la requête SQL en fonction des filtres
-$query = "SELECT p.* FROM products p 
+$query = "SELECT DISTINCT p.* FROM products p 
           LEFT JOIN product_filter pf ON p.product_id = pf.product_id 
           LEFT JOIN filters f ON pf.filter_id = f.filter_id 
           WHERE 1=1";
 
 $params = [];
-if (!empty($filters['couleur'])) {
-    $placeholders = implode(',', array_fill(0, count($filters['couleur']), '?'));
-    $query .= " AND (f.filter_type = 'couleur' AND f.filter_value IN ($placeholders))";
-    $params = array_merge($params, $filters['couleur']);
-}
-
-if (!empty($filters['ingrédient'])) {
-    $placeholders = implode(',', array_fill(0, count($filters['ingrédient']), '?'));
-    $query .= " AND (f.filter_type = 'ingrédient' AND f.filter_value IN ($placeholders))";
-    $params = array_merge($params, $filters['ingrédient']);
-}
-
-if (!empty($filters['marque'])) {
-    $placeholders = implode(',', array_fill(0, count($filters['marque']), '?'));
-    $query .= " AND (f.filter_type = 'marque' AND f.filter_value IN ($placeholders))";
-    $params = array_merge($params, $filters['marque']);
+foreach ($filters as $filter_type => $filter_values) {
+    if (!empty($filter_values)) {
+        $placeholders = implode(',', array_fill(0, count($filter_values), '?'));
+        $query .= " AND (f.filter_type = ? AND f.filter_value IN ($placeholders))";
+        $params[] = $filter_type;
+        $params = array_merge($params, $filter_values);
+    }
 }
 
 // Exécuter la requête
 $stmt = $products->getDatabaseConnection()->prepare($query);
 if ($stmt->execute($params)) {
     $filtered_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($filtered_products as &$product) {
+        $product_images = $images->getImagesByProductId($product['product_id']);
+        $product['image_url'] = !empty($product_images) ? $product_images[0]['url'] : null;
+    }
     echo json_encode(['products' => $filtered_products]);
 } else {
     http_response_code(500);
