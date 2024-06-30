@@ -57,15 +57,24 @@ class Products extends Database {
         }
     }
 
-    public function updateProduct($id, $product_name, $description, $quantity_weight, $price) {
+    public function updateProduct($id, $product_name, $description, $quantity_weight, $price, $category_id) {
         try {
             $conn = $this->getConnection();
-            $stmt = $conn->prepare("UPDATE products SET product_name = :product_name, description = :description, quantity_weight = :quantity_weight, price = :price WHERE product_id = :id");
+            $stmt = $conn->prepare("
+                UPDATE products 
+                SET product_name = :product_name, 
+                    description = :description, 
+                    quantity_weight = :quantity_weight, 
+                    price = :price, 
+                    category_id = :category_id 
+                WHERE product_id = :id
+            ");
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->bindParam(':product_name', $product_name);
             $stmt->bindParam(':description', $description);
             $stmt->bindParam(':quantity_weight', $quantity_weight);
             $stmt->bindParam(':price', $price);
+            $stmt->bindParam(':category_id', $category_id, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->rowCount();
         } catch (Exception $e) {

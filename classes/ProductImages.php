@@ -45,5 +45,40 @@ class ProductImages extends Database {
             die('Erreur : ' . le . $e->getMessage());
         }
     }  
+    public function getImageByUrl($url) {
+        try {
+            $conn = $this->getConnection();
+            $stmt = $conn->prepare("SELECT * FROM images WHERE url = :url");
+            $stmt->bindParam(':url', $url, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
+
+    public function addImage($url) {
+        try {
+            $conn = $this->getConnection();
+            $stmt = $conn->prepare("INSERT INTO images (url) VALUES (:url)");
+            $stmt->bindParam(':url', $url, PDO::PARAM_STR);
+            $stmt->execute();
+            return $conn->lastInsertId();
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
+    public function isImageAlreadyLinkedToProduct($product_id, $image_id) {
+        try {
+            $conn = $this->getConnection();
+            $stmt = $conn->prepare("SELECT * FROM product_images WHERE product_id = :product_id AND image_id = :image_id");
+            $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+            $stmt->bindParam(':image_id', $image_id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC) !== false;
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
 }
 ?>

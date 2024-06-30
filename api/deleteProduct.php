@@ -32,7 +32,7 @@ if (isset($data['id'])) {
 
         $message = $rowCount > 0 ? 'Produit supprimé avec succès' : 'Erreur lors de la suppression du produit';
         header('Content-Type: application/json');
-        echo json_encode(['message' => $message]);
+        echo json_encode(['message' => $message, 'rowCount' => $rowCount]);
     } catch (Exception $e) {
         file_put_contents('php://stderr', "Erreur : " . $e->getMessage());
         header('Content-Type: application/json');
