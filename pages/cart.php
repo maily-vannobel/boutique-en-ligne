@@ -1,12 +1,19 @@
 <?php
 require_once '../classes/Database.php';
 require_once '../classes/Users.php';
-require_once '../includes/header.php';
 
+// Commencez la session ici pour s'assurer qu'aucun contenu n'est envoyé avant la vérification de session.
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Vérifiez si l'utilisateur est connecté avant d'inclure le header.
 if (!isset($_SESSION['user_id'])) {
     header('Location: loginRegister.php');
     exit();
 }
+
+require_once '../includes/header.php';
 
 $cart_items = $_SESSION['cart'] ?? [];
 ?>

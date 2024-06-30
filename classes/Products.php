@@ -9,7 +9,6 @@ class Products extends Database {
     private $quantity_weight;
     private $price;
     private $subcategories_id;
-    private $category_id;
 
     public function __construct() {
         parent::__construct();
@@ -57,6 +56,7 @@ class Products extends Database {
             die('Erreur : ' . $e->getMessage());
         }
     }
+
     public function updateProduct($id, $product_name, $description, $quantity_weight, $price, $category_id) {
         try {
             $conn = $this->getConnection();

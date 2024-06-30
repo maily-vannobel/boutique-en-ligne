@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/Database.php';
-
 class Filters extends Database {
 
     private $filter_id;
@@ -72,6 +71,7 @@ class Filters extends Database {
             die('Erreur : ' . $e->getMessage());
         }
     }
+    
 
     public function getAllFilters() {
         try {
@@ -92,5 +92,19 @@ class Filters extends Database {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function updateFilter($filter_id, $filter_type, $filter_value) {
+        try {
+            $conn = $this->getConnection();
+            $stmt = $conn->prepare("UPDATE filters SET filter_type = :filter_type, filter_value = :filter_value WHERE filter_id = :filter_id");
+            $stmt->bindParam(':filter_id', $filter_id, PDO::PARAM_INT);
+            $stmt->bindParam(':filter_type', $filter_type);
+            $stmt->bindParam(':filter_value', $filter_value);
+            $stmt->execute();
+            return $stmt->rowCount();
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
+    
 }
 ?>

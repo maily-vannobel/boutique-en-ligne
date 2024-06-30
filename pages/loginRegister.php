@@ -2,6 +2,10 @@
 require_once __DIR__ . '/../classes/Database.php';
 require_once __DIR__ . '/../classes/Users.php';
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -18,16 +22,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $user = $users->get_user_by_phone($identifier);
             }
 
-            if ($user && password_verify($password, $user['password'])) {
-                $_SESSION['user_id'] = $user['user_id'];
-                $_SESSION['last_name'] = $user['last_name'];
-                $_SESSION['first_name'] = $user['first_name'];
-                $_SESSION['email'] = $user['email'];
-                $_SESSION['role_id'] = $user['role_id'];
-                header('Location: ../index.php');
-                exit();
+            if ($user) {
+                if (password_verify($password, $user['password'])) {
+                    $_SESSION['user_id'] = $user['user_id'];
+                    $_SESSION['last_name'] = $user['last_name'];
+                    $_SESSION['first_name'] = $user['first_name'];
+                    $_SESSION['email'] = $user['email'];
+                    $_SESSION['role_id'] = $user['role_id'];
+                    header('Location: ../index.php');
+                    exit();
+                } else {
+                    $message = 'Identifiant ou mot de passe incorrect';
+                }
             } else {
-                $message = 'Identifiant ou mot de passe incorrect';
+                $message = 'Utilisateur non trouvé';
             }
         } catch (Exception $e) {
             $message = 'Erreur : ' . $e->getMessage();
@@ -125,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php if ($message && isset($_POST['form_type']) && $_POST['form_type'] == 'login'): ?>
             <p class="text-red-500"><?= htmlspecialchars($message) ?></p>
         <?php endif; ?>
-        <form action="loginRegister.php" method="post" class="space-y-6" >
+        <form action="loginRegister.php" method="post" class="space-y-6">
             <input type="hidden" name="form_type" value="login">
             <input type="hidden" id="login_method" name="login_method" value="email">
             <div id="email_login" class="relative z-0 w-full mb-5 group">

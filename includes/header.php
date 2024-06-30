@@ -60,8 +60,8 @@ $isLoggedIn = isset($_SESSION['user_id']);
                     <button id="adminMenuButton" class="text-gray-700 dark:text-gray-300 hover:text-yellow-500 dark:hover:text-yellow-500 px-3 py-2 rounded-md text-sm font-medium">Admin</button>
                     <div id="adminMenu" class="hidden absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg dark:border-gray-700 dark:bg-gray-700">
                         <a href="/pages/addProductForm.php" class="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600">Ajouter un produit</a>
-                        <a href="/pages/productManager.php" class="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600">Gérer les produits</a>
-                        <a href="/pages/userManager.php" class="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600">Gérer les utilisateurs</a>
+                        <a href="/pages/manageProduct.php" class="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600">Gérer les produits</a>
+                        <a href="/pages/filtering.php" class="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600">Filtrages</a>
                     </div>
                 </div>
             <?php endif; ?>
@@ -128,13 +128,13 @@ $isLoggedIn = isset($_SESSION['user_id']);
         <?php if ($isLoggedIn): ?>
             <?php if ($isAdmin): ?>
                 <a href="/pages/addProductForm.php" class="block text-gray-700 dark:text-gray-300 hover:text-yellow-500 dark:hover:text-yellow-500">Ajouter un produit</a>
-                <a href="/pages/productManager.php" class="block text-gray-700 dark:text-gray-300 hover:text-yellow-500 dark:hover:text-yellow-500">Gérer les produits</a>
-                <a href="/pages/userManager.php" class="block text-gray-700 dark:text-gray-300 hover:text-yellow-500 dark:hover:text-yellow-500">Gérer les utilisateurs</a>
+                <a href="/pages/manageProduct.php" class="block text-gray-700 dark:text-gray-300 hover:text-yellow-500 dark:hover:text-yellow-500">Gérer les produits</a>
+                <a href="/pages/filtering.php" class="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600">Filtrages</a>
             <?php endif; ?>
         <?php endif; ?>
     </nav>
 </div>
 
-<script src="../javascript/menu.js"></script>
+<script src="/javascript/menu.js"></script>
 </body>
 </html>
