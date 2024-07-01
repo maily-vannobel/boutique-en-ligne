@@ -15,8 +15,11 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 p-6">
+<body>
+
     <?php include '../includes/header.php'; ?>
+    
+    <section class="bg-gray-100 p-6">
     <div class="container mx-auto mt-8">
         <h1 class="text-3xl font-bold mb-6">Gestion des Catégories, Sous-catégories et Filtres</h1>
         
@@ -199,6 +202,7 @@
             </form>
         </div>
     </div>
+    </section>
     <script src="../javascript/filtering.js"></script>
 </body>
 </html>
