@@ -67,18 +67,45 @@ $cart_items = $_SESSION['cart'] ?? [];
                 <?php endif; ?>
             </div>
 
-            <!-- Section du code promo et validation -->
-            <div class="w-1/3 bg-white p-6 rounded-lg shadow-md mt-6">
-                <h2 class="text-xl font-semibold text-gray-800">Code Promo</h2>
-                <form method="post" action="/api/applyPromoCode.php">
-                    <div class="mb-4">
-                        <input type="text" name="promo_code" placeholder="Entrez votre code promo" class="w-full p-2 border rounded">
+            <!-- Section du récapitulatif et du code promo -->
+            <div class="w-1/3 mt-6">
+                <!-- Section du récapitulatif -->
+                <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                    <h2 class="text-xl font-semibold text-gray-800">Récapitulatif</h2>
+                    <ul>
+                        <?php foreach ($cart_items as $item): ?>
+                            <li class="flex justify-between items-center border-b py-2">
+                                <span><?= htmlspecialchars($item['name'] ?? 'Nom indisponible') ?></span>
+                                <span>x<?= htmlspecialchars($item['quantity'] ?? 1) ?></span>
+                                <span><?= htmlspecialchars($item['price'] ?? '0.00') ?> €</span>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <div class="mt-4">
+                        <strong>Total :</strong> 
+                        <?php 
+                        $total = 0;
+                        foreach ($cart_items as $item) {
+                            $total += ($item['quantity'] ?? 0) * ($item['price'] ?? 0);
+                        }
+                        echo htmlspecialchars($total) . ' €';
+                        ?>
                     </div>
-                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Appliquer</button>
-                </form>
+                </div>
 
-                <div class="mt-6">
-                    <button onclick="window.location.href='/api/checkout.php'" class="bg-green-500 text-white px-4 py-2 rounded w-full">Valider la commande</button>
+                <!-- Section du code promo et validation -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-xl font-semibold text-gray-800">Code Promo</h2>
+                    <form method="post" action="/api/applyPromoCode.php">
+                        <div class="mb-4">
+                            <input type="text" name="promo_code" placeholder="Entrez votre code promo" class="w-full p-2 border rounded">
+                        </div>
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Appliquer</button>
+                    </form>
+
+                    <div class="mt-6">
+                        <button onclick="window.location.href='/api/checkout.php'" class="bg-green-500 text-white px-4 py-2 rounded w-full">Valider la commande</button>
+                    </div>
                 </div>
             </div>
         </div>
