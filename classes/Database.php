@@ -1,6 +1,6 @@
 <?php
 class Database {
-    protected $conn;
+    private $conn;
 
     public function __construct() {
         try {
@@ -13,8 +13,8 @@ class Database {
             die('Erreur : ' . $e->getMessage());
         }
     }
-    
-    protected function getConnection() {
+
+    public function getConnection() {
         return $this->conn;
     }
 }
