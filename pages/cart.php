@@ -2,12 +2,10 @@
 require_once '../classes/Database.php';
 require_once '../classes/Users.php';
 
-// Commencez la session ici pour s'assurer qu'aucun contenu n'est envoyé avant la vérification de session.
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Vérifiez si l'utilisateur est connecté avant d'inclure le header.
 if (!isset($_SESSION['user_id'])) {
     header('Location: loginRegister.php');
     exit();
@@ -35,12 +33,12 @@ $cart_items = $_SESSION['cart'] ?? [];
                 <p>Votre panier est actuellement vide.</p>
             <?php else: ?>
                 <ul>
-                    <?php foreach ($cart_items as $item): ?>
+                    <?php foreach ($cart_items as $product_id => $item): ?>
                         <li class="flex justify-between items-center border-b py-2">
                             <span class="font-bold"><?= htmlspecialchars($item['name'] ?? 'Nom indisponible') ?></span>
                             <span>
                                 <form method="post" action="/api/updateCart.php" class="inline">
-                                    <input type="hidden" name="product_id" value="<?= htmlspecialchars($item['id'] ?? '') ?>">
+                                    <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id) ?>">
                                     <input type="number" name="quantity" value="<?= htmlspecialchars($item['quantity'] ?? 1) ?>" min="1" class="w-16 p-1 border rounded">
                                     <button type="submit" class="bg-green-500 text-white px-2 py-1 rounded">Mettre à jour</button>
                                 </form>
@@ -48,7 +46,7 @@ $cart_items = $_SESSION['cart'] ?? [];
                             <span><?= htmlspecialchars($item['price'] ?? '0.00') ?> €</span>
                             <span><?= htmlspecialchars(($item['quantity'] ?? 0) * ($item['price'] ?? 0)) ?> €</span>
                             <form method="post" action="/api/removeFromCart.php" class="inline">
-                                <input type="hidden" name="product_id" value="<?= htmlspecialchars($item['id'] ?? '') ?>">
+                                <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_id) ?>">
                                 <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded">Supprimer</button>
                             </form>
                         </li>

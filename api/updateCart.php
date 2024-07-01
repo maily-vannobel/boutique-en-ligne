@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['product_id']) && isset($_POST['quantity'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['product_id']) && isset($_POST['quantity'])) {
     $product_id = $_POST['product_id'];
     $quantity = (int)$_POST['quantity'];
 
@@ -19,3 +19,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['product_id']) && isset
 header("Location: /pages/cart.php");
 exit();
 ?>
+
