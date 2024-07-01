@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     window.validateForm = function() {
-        const password = document.getElementById('password').value;
+        const password = document.getElementById('register_password').value;
         const confirmPassword = document.getElementById('confirm_password').value;
         if (password !== confirmPassword) {
             document.getElementById('passwordError').innerText = 'Les mots de passe ne correspondent pas';
