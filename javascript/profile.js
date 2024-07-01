@@ -7,19 +7,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const accordionButtons = document.querySelectorAll('button[data-accordion-target]');
-
     accordionButtons.forEach(function (button) {
         button.addEventListener('click', function () {
             const target = document.querySelector(button.getAttribute('data-accordion-target'));
-            console.log('Valeur de data-accordion-target :', button.getAttribute('data-accordion-target'));
-            console.log('Élément cible :', target);
-
             if (target.classList.contains('hidden')) {
                 target.classList.remove('hidden');
-                console.log('Élément affiché :', target);
             } else {
                 target.classList.add('hidden');
-                console.log('Élément caché :', target);
             }
         });
     });
@@ -32,14 +26,35 @@ document.addEventListener('DOMContentLoaded', function () {
     if (modalToggleButton && modal && modalCloseButton) {
         modalToggleButton.addEventListener('click', function () {
             modal.classList.toggle('hidden');
-            console.log('Modale affichée :', modal);
         });
 
         modalCloseButton.addEventListener('click', function () {
             modal.classList.add('hidden');
-            console.log('Modale cachée :', modal);
         });
     }
+
+    // Modales pour les adresses
+    const modalToggleButtons = document.querySelectorAll('[data-modal-toggle]');
+    modalToggleButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            const targetId = button.getAttribute('data-modal-toggle');
+            const targetModal = document.getElementById(targetId);
+            if (targetModal) {
+                targetModal.classList.toggle('hidden');
+            }
+        });
+    });
+
+    const modalCloseButtons = document.querySelectorAll('[data-modal-hide]');
+    modalCloseButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            const targetId = button.getAttribute('data-modal-hide');
+            const targetModal = document.getElementById(targetId);
+            if (targetModal) {
+                targetModal.classList.add('hidden');
+            }
+        });
+    });
 
     // Visibilité des mots de passe
     const toggleButtons = document.querySelectorAll('.toggle-password-visibility');

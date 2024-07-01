@@ -98,7 +98,7 @@ foreach ($all_filters as $filter) {
                     <p class="text-green-500 font-bold">Prix : <?= htmlspecialchars($product['price']) ?> €</p>
                     <p class="text-gray-500">Poids : <?= htmlspecialchars($product['quantity_weight']) ?></p>
 
-                    <form method="post" action="addToCart.php">
+                    <form method="post" action="/api/addToCart.php">
                         <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['product_id']) ?>">
                         <input type="hidden" name="product_name" value="<?= htmlspecialchars($product['product_name']) ?>">
                         <input type="hidden" name="product_price" value="<?= htmlspecialchars($product['price']) ?>">

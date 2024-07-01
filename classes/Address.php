@@ -33,5 +33,12 @@ class Address {
         $stmt = $this->db->prepare($query);
         $stmt->execute([$userId, $addressId]);
     }
-}
+    public function addBillingAddress($user_id, $billing_address, $postal_code, $city) {
+        $query = "INSERT INTO addresses (billing_address, postal_code, city) VALUES (?, ?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([$billing_address, $postal_code, $city]);
+        $addressId = $this->db->lastInsertId();
+        $this->linkAddressToUser($user_id, $addressId);
+        return true;
+    }}
 ?>

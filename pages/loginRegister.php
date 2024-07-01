@@ -1,6 +1,7 @@
 <?php 
 require_once __DIR__ . '/../classes/Database.php';
 require_once __DIR__ . '/../classes/Users.php';
+require_once __DIR__ . '/../classes/Address.php';
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -65,6 +66,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $password = $_POST['password'];
         $confirm_password = $_POST['confirm_password'];
         $phone = $_POST['phone'];
+        
+        // Champs d'adresse
+        $deliveryAddress = $_POST['delivery_address'];
+        $addressComplement = $_POST['address_complement'];
+        $postalCode = $_POST['postal_code'];
+        $city = $_POST['city'];
+        $billingAddress = $_POST['billing_address'];
 
         if ($password !== $confirm_password) {
             $message = 'Les mots de passe ne correspondent pas';
@@ -72,6 +80,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             try {
                 $users = new Users();
                 $user_id = $users->create_user($last_name, $first_name, $email, $password, $phone);
+                
+                // Enregistrer l'adresse
+                $db = new Database();
+                $address = new Address($db);
+                $address->addAddress($user_id, $deliveryAddress, $addressComplement, $postalCode, $city, $billingAddress);
+                
                 $_SESSION['register_success'] = 'Félicitations, votre compte a été créé!';
                 header('Location: loginRegister.php');
                 exit();
@@ -137,6 +151,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="relative z-0 w-full mb-5 group">
                     <input type="text" name="phone" id="phone" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                     <label for="phone" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Téléphone</label>
+                </div>
+                <!-- Champs pour les adresses -->
+                <div class="relative z-0 w-full mb-5 group">
+                    <input type="text" name="delivery_address" id="delivery_address" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                    <label for="delivery_address" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Adresse de livraison</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input type="text" name="address_complement" id="address_complement" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                    <label for="address_complement" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Complément d'adresse</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input type="text" name="postal_code" id="postal_code" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                    <label for="postal_code" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Code postal</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input type="text" name="city" id="city" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                    <label for="city" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Ville</label>
                 </div>
                 <div id="passwordError" class="text-red-500 text-sm mt-2"></div>
                 <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">S'inscrire</button>
